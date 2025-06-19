@@ -1,0 +1,288 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Game Mentor - Minecraft World Downloads</title>
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+    <script src="https://cdn.tailwindcss.com"></script>
+    <style>
+        :root {
+            --primary: #4CAF50;
+            --primary-dark: #388E3C;
+            --secondary: #2196F3;
+            --dark: #212121;
+            --light: #f5f5f5;
+        }
+
+        body {
+            font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+            background-color: #f9f9f9;
+            color: #333;
+            line-height: 1.6;
+        }
+
+        .search-container {
+            background: linear-gradient(135deg, var(--primary), var(--secondary));
+            padding: 2rem 0;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+
+        .search-box {
+            transition: all 0.3s ease;
+        }
+
+        .search-box:focus-within {
+            box-shadow: 0 0 0 3px rgba(33, 150, 243, 0.3);
+        }
+
+        .world-card {
+            transition: transform 0.3s ease, box-shadow 0.3s ease;
+            background: white;
+            border-radius: 8px;
+            overflow: hidden;
+        }
+
+        .world-card:hover {
+            transform: translateY(-5px);
+            box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+        }
+
+        .thumbnail {
+            height: 280px;
+            object-fit: cover;
+            width: 100%;
+        }
+
+        .download-btn {
+            background-color: var(--primary);
+            transition: all 0.3s ease;
+        }
+
+        .download-btn:hover {
+            background-color: var(--primary-dark);
+            transform: translateY(-2px);
+        }
+
+        .footer-link {
+            transition: color 0.3s ease;
+        }
+
+        .footer-link:hover {
+            color: var(--secondary);
+        }
+
+        .social-icon {
+            transition: transform 0.3s ease;
+        }
+
+        .social-icon:hover {
+            transform: scale(1.1);
+        }
+
+        @media (max-width: 768px) {
+            .thumbnail {
+                height: 150px;
+            }
+
+            .search-container {
+                padding: 1.5rem 0;
+            }
+        }
+
+        @media (max-width: 480px) {
+            .thumbnail {
+                height: 120px;
+            }
+        }
+    </style>
+</head>
+
+<body>
+    <header class="search-container">
+        <div class="container mx-auto px-4">
+            <div class="max-w-4xl mx-auto text-center">
+                <h1 class="text-3xl md:text-4xl font-bold text-white mb-4">Game Mentor</h1>
+                <p class="text-white mb-6">Download Minecraft Worlds from Our Tutorial Videos</p>
+
+                <div class="relative max-w-xl mx-auto">
+                    <div class="search-box flex items-center bg-white rounded-lg overflow-hidden">
+                        <input type="text" id="searchInput" placeholder="Search by title..."
+                            class="py-3 px-4 w-full focus:outline-none">
+                        <button id="searchBtn"
+                            class="bg-blue-500 hover:bg-blue-600 text-white px-6 py-3 transition duration-300">
+                            <i class="fas fa-search"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </header>
+
+    <main class="container mx-auto px-4 py-8">
+        <div class="flex justify-between items-center mb-6">
+            <h2 class="text-2xl font-semibold text-gray-800">Available Worlds</h2>
+            <div class="flex space-x-2">
+                <button id="sortTitle" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Sort by Title</button>
+                <button id="sortDate" class="px-3 py-1 bg-gray-200 rounded hover:bg-gray-300">Sort by Date</button>
+            </div>
+        </div>
+
+        <div id="worldsContainer" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6">
+            <!-- World cards will be dynamically inserted here -->
+        </div>
+
+        <!-- Template for world cards (hidden) -->
+        <template id="worldTemplate">
+            <div class="world-card shadow-md hover:shadow-lg">
+                <img src="" alt="World Thumbnail" class="thumbnail">
+                <div class="p-4">
+                    <p class="text-gray-500 text-sm mb-1">Uploaded: <span class="upload-date"></span></p>
+                    <h3 class="text-lg font-semibold mb-3 title"></h3>
+                    <a href="#" target="_blank"
+                        class="download-btn inline-block w-full text-center text-white py-2 px-4 rounded font-medium">
+                        Download World
+                    </a>
+                </div>
+            </div>
+        </template>
+    </main>
+
+    <footer class="bg-gray-800 text-white py-8">
+        <div class="container mx-auto px-4">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Game Mentor</h3>
+                    <p>Your source for Minecraft world downloads and tutorials.</p>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Help</h3>
+                    <ul class="space-y-2">
+                        <li><a href="https://youtu.be/LcQuo4APbCw" class="footer-link">How to open download link</a>
+                        </li>
+                    </ul>
+                </div>
+
+                <div>
+                    <h3 class="text-xl font-semibold mb-4">Connect</h3>
+                    <div class="flex space-x-4">
+                        <a href="https://www.youtube.com/channel/UCTuaoO1vvetwWJET9fsjJdg"
+                            class="social-icon text-2xl"><i class="fab fa-youtube"></i></a>
+                        <a href="https://discord.gg/eHFpTXKttR" class="social-icon text-2xl"><i
+                                class="fab fa-discord"></i></a>
+                    </div>
+                    <div class="mt-4">
+                        <a href="https://discord.gg/eHFpTXKttR" class="footer-link">Send Feedback</a>
+                    </div>
+                </div>
+            </div>
+
+            <div class="border-t border-gray-700 mt-8 pt-6 text-center text-gray-400">
+                <p>&copy; 2025 Game Mentor. All rights reserved.</p>
+            </div>
+        </div>
+    </footer>
+
+    <!-- <img src=""> -->
+
+    <script>
+        // Sample data - replace with your actual world data
+        const worldsData = [
+            {
+                title: "How to Download One Block Survival World in Minecraft 1.21 | Minecraft Pe 1.21",
+                date: "2025-06-13",
+                thumbnail: "./img/oneblockworld.jpg",
+                downloadLink: "https://shrinkme.ink/Mcpe_One_Block_Wold_1-21"
+            },
+            {
+                title: "How to Download Gamerfleet's LILYVILLE SMP World for Minecraft Pe 1.21 | Mcpe 1.21",
+                date: "2025-04-15",
+                thumbnail: "./img/lillyvilliworld.jpg",
+                downloadLink: "https://shrinkme.ink/LILYVILLE_SMP_BY_GM"
+            },
+            {
+                title: "How to Download TECHNO GAMERZ Minecraft Pe World in 1.21 | Techno Gamerz Minecraft SURVIVAL",
+                date: "2025-04-13",
+                thumbnail: "./img/technogamerzworld.jpg",
+                downloadLink: "https://shrinkme.ink/TechnoG_New_World"
+            },
+        ];
+
+        // DOM elements
+        const worldsContainer = document.getElementById('worldsContainer');
+        const worldTemplate = document.getElementById('worldTemplate');
+        const searchInput = document.getElementById('searchInput');
+        const searchBtn = document.getElementById('searchBtn');
+        const sortTitleBtn = document.getElementById('sortTitle');
+        const sortDateBtn = document.getElementById('sortDate');
+
+        // Display all worlds initially
+        function displayWorlds(worlds) {
+            worldsContainer.innerHTML = '';
+
+            worlds.forEach(world => {
+                const clone = worldTemplate.content.cloneNode(true);
+                clone.querySelector('img').src = world.thumbnail;
+                clone.querySelector('.upload-date').textContent = formatDate(world.date);
+                clone.querySelector('.title').textContent = world.title;
+                clone.querySelector('a').href = world.downloadLink;
+
+                worldsContainer.appendChild(clone);
+            });
+        }
+
+        // Format date to be more readable
+        function formatDate(dateString) {
+            const options = { year: 'numeric', month: 'long', day: 'numeric' };
+            return new Date(dateString).toLocaleDateString(undefined, options);
+        }
+
+        // Search functionality
+        function searchWorlds() {
+            const searchTerm = searchInput.value.toLowerCase();
+
+            if (!searchTerm) {
+                displayWorlds(worldsData);
+                return;
+            }
+
+            const filteredWorlds = worldsData.filter(world =>
+                world.title.toLowerCase().includes(searchTerm) ||
+                world.date.includes(searchTerm)
+            );
+
+            displayWorlds(filteredWorlds);
+        }
+
+        // Sort by title
+        function sortByTitle() {
+            const sorted = [...worldsData].sort((a, b) =>
+                a.title.localeCompare(b.title)
+            );
+            displayWorlds(sorted);
+        }
+
+        // Sort by date (newest first)
+        function sortByDate() {
+            const sorted = [...worldsData].sort((a, b) =>
+                new Date(b.date) - new Date(a.date)
+            );
+            displayWorlds(sorted);
+        }
+
+        // Event listeners
+        searchBtn.addEventListener('click', searchWorlds);
+        searchInput.addEventListener('keyup', (e) => {
+            if (e.key === 'Enter') searchWorlds();
+        });
+        sortTitleBtn.addEventListener('click', sortByTitle);
+        sortDateBtn.addEventListener('click', sortByDate);
+
+        // Initialize display
+        displayWorlds(worldsData);
+    </script>
+</body>
+
+</html>
